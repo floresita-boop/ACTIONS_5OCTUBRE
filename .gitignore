@@ -1,5 +1,18 @@
-node modules/
+node_modules/
+
 *.log
-.DS Store
+
+.DS_Store
+
 dist/
-.env 
+
+.env
+
+# Entorno virtual de Python
+
+v_actions/
+
+# Archivos temporales de Python
+
+__pycache__/
+*.pyc
