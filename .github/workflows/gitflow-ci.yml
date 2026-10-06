@@ -1,3 +1,4 @@
+
 name: Django CI Pipeline
 
 on:
@@ -5,6 +6,7 @@ on:
     branches:
       - main
       - develop
+      - feature/suma-resta
 
   pull_request:
     branches:
@@ -26,11 +28,12 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Instalar Django
+      - name: Instalar dependencias
         run: |
           python -m pip install --upgrade pip
-          pip install django
+          pip install -r requirements.txt
 
       - name: Verificar proyecto Django
         run: |
           python manage.py check
+
