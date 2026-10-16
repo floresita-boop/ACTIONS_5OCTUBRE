@@ -1,3 +1,4 @@
+
 name: Django Deploy
 
 on:
@@ -5,6 +6,7 @@ on:
     branches:
       - main
       - feature/suma-resta
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -26,18 +28,18 @@ jobs:
           pip install -r requirements.txt
 
       - name: Verificar proyecto Django
-        run: |
-          python manage.py check
+        run: python manage.py check
 
       - name: Recolectar archivos estáticos
-        run: |
-          python manage.py collectstatic --noinput
+        run: python manage.py collectstatic --noinput
 
-      - name: Preparar despliegue
+      - name: Desplegar en Render
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
-          echo "======================================"
-          echo "   DESPLIEGUE DJANGO COMPLETADO"
-          echo "======================================"
-          echo "Rama: ${GITHUB_REF#refs/heads/}"
-          echo "Commit: ${GITHUB_SHA:0:7}"
-          echo "Proyecto Django verificado correctamente"
+          if [ -z "$RENDER_DEPLOY_HOOK_URL" ]; then
+            echo "Falta configurar el secreto de Render"
+            exit 1
+          fi
+          curl --fail --silent --show-error \
+            --request POST "$RENDER_DEPLOY_HOOK_URL"
