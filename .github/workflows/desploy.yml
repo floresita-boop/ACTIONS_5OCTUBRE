@@ -4,13 +4,12 @@ name: Django Deploy
 on:
   push:
     branches:
-      - main
       - feature/suma-resta
   workflow_dispatch:
 
 jobs:
   deploy:
-    name: Desplegar Django
+    name: Verificar y desplegar Django
     runs-on: ubuntu-latest
 
     steps:
